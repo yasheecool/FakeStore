@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily: "Poppins",
+    fontFamily: "Helvetica",
     fontWeight: "700",
     color: "#7A8450",
     textShadowColor: "#000000",

@@ -91,11 +91,15 @@ const styles = StyleSheet.create({
   titleContainer: {
     marginTop: 50,
     marginBottom: 125,
+    backgroundColor: "#7A8450",
+    borderRadius: 10,
   },
   titleText: {
     fontFamily: "Helvetica",
     fontWeight: "500",
     fontSize: 30,
+    padding: 5,
+    color: "black",
   },
   categoryContainer: {
     flexDirection: "row",

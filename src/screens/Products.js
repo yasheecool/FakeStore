@@ -35,14 +35,17 @@ const Products = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>
-        {category[0].toUpperCase() + category.slice(1)}
-      </Text>
-      <View>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>
+          {category[0].toUpperCase() + category.slice(1)}
+        </Text>
+      </View>
+
+      <View style={styles.productContainer}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          <ScrollView style={styles.productContainer}>
+          <ScrollView>
             {products.map((prod, idx) => (
               <Pressable
                 key={idx}
@@ -60,6 +63,9 @@ const Products = ({ navigation, route }) => {
             ))}
           </ScrollView>
         )}
+      </View>
+
+      <View>
         <Button
           iconName={"arrow-back-sharp"}
           text={"BACK"}
@@ -79,16 +85,22 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
   },
+  titleContainer: {
+    backgroundColor: "#7A8450",
+    borderRadius: 10,
+  },
   title: {
     fontFamily: "Helvetica",
     fontWeight: "500",
     fontSize: 30,
+    padding: 5,
   },
   productContainer: {
     borderColor: "black",
     borderWidth: "2",
     margin: 5,
     borderRadius: 10,
+    flex: 1,
   },
   product: {
     backgroundColor: "skyblue",
