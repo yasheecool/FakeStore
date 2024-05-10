@@ -36,15 +36,13 @@ const Products = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>
-          {category[0].toUpperCase() + category.slice(1)}
-        </Text>
+        <Text style={styles.title}>{category}</Text>
       </View>
 
-      <View style={styles.productContainer}>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <View style={styles.productContainer}>
           <ScrollView>
             {products.map((prod, idx) => (
               <Pressable
@@ -62,8 +60,8 @@ const Products = ({ navigation, route }) => {
               </Pressable>
             ))}
           </ScrollView>
-        )}
-      </View>
+        </View>
+      )}
 
       <View>
         <Button

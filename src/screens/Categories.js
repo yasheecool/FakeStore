@@ -4,11 +4,9 @@ import {
   Text,
   View,
   SafeAreaView,
-  TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import Button from "../components/Button";
-import { Ionicons } from "@expo/vector-icons";
 
 const Categories = ({ navigation }) => {
   const [loading, setLoading] = useState(true);

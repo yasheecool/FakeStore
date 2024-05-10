@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
 import Button from "../components/Button";
 
 export default SplashScreen = ({ navigation }) => {
-  const navToNewToDo = () => navigation.navigate("Categories");
+  const navToNewToDo = () => navigation.navigate("BottomNav");
 
   return (
     <SafeAreaView style={styles.container}>
