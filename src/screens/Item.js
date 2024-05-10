@@ -4,15 +4,11 @@ import {
   Text,
   View,
   SafeAreaView,
-  TouchableOpacity,
-  ActivityIndicator,
   Image,
   ScrollView,
-  Pressable,
   Dimensions,
 } from "react-native";
 import Button from "../components/Button";
-import { Ionicons } from "@expo/vector-icons";
 
 export default Item = ({ navigation, route }) => {
   const [item, setItem] = useState({});
@@ -55,10 +51,13 @@ export default Item = ({ navigation, route }) => {
             onClickFn={() => console.log("added to cart")}
           ></Button>
         </View>
+
         <Text style={styles.descTitle}>Description: </Text>
-        <ScrollView style={styles.description}>
-          <Text style={styles.descText}>{item.description}</Text>
-        </ScrollView>
+        <View style={styles.description}>
+          <ScrollView>
+            <Text style={styles.descText}>{item.description}</Text>
+          </ScrollView>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -137,14 +136,16 @@ const styles = StyleSheet.create({
     fontSize: 27,
     padding: 5,
     alignSelf: "stretch",
+    marginHorizontal: 10,
   },
   description: {
-    maxHeight: screenHeight * 0.2, // Adjust the multiplier as needed
+    maxHeight: screenHeight * 0.175,
     backgroundColor: "grey",
     borderRadius: 2,
     borderColor: "black",
     borderRadius: 10,
     borderWidth: 1,
+    marginHorizontal: 10,
   },
   descText: {
     margin: 10,
