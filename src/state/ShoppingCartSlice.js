@@ -13,6 +13,18 @@ function itemInCart(cartItems, itemId) {
   return cartItems.some((item) => item.id === itemId);
 }
 
+function calculateCartSummary(cartItems) {
+  let totalQty = 0;
+  let totalPrice = 0;
+
+  cartItems.forEach((item) => {
+    totalQty += item.quantity;
+    totalPrice += item.quantity * item.price;
+  });
+
+  return { totalPrice, totalQty };
+}
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -38,38 +50,7 @@ const cartSlice = createSlice({
 
 export const { addToCart, reduceQty } = cartSlice.actions;
 export const getCartItems = (state) => state.cart.cartItems;
+export const getCartSummary = (state) => {
+  return calculateCartSummary(state.cart.cartItems);
+};
 export default cartSlice.reducer;
-
-// const cartSlice = createSlice({
-//   name: "cart",
-//   initialState,
-//   reducers: {
-//     addToCart: (state, action) => {
-//       state.cartItems.push(action.payload);
-//     },
-//     removeFromCart: (state, action) => {
-//       state.cartItems = state.cartItems.filter(
-//         (item) => item.id !== action.payload.id
-//       );
-//     },
-//     clearCart: (state) => {
-//       state.cartItems = [];
-//     },
-//     setLoading: (state, action) => {
-//       state.loading = action.payload;
-//     },
-//     setError: (state, action) => {
-//       state.error = action.payload;
-//     },
-//   },
-// });
-
-// export const {
-//   addToCart,
-//   removeFromCart,
-//   clearCart,
-//   setLoading,
-//   setError,
-// } = cartSlice.actions;
-
-// export default cartSlice.reducer;

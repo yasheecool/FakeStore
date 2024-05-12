@@ -8,13 +8,14 @@ import {
   FlatList,
 } from "react-native";
 import { useSelector } from "react-redux";
-import { getCartItems } from "../state/ShoppingCartSlice";
+import { getCartItems, getCartSummary } from "../state/ShoppingCartSlice";
 import Item from "../components/Item";
 
 const ShoppingCart = ({ navigation }) => {
   const cartItems = useSelector(getCartItems);
+  const { totalPrice, totalQty } = useSelector(getCartSummary);
 
-  console.log("Shopping Cart Screen:", cartItems);
+  // console.log("SUMMARY: ", cartSummary);
 
   const renderItem = ({ item }) => {
     return (
@@ -28,15 +29,30 @@ const ShoppingCart = ({ navigation }) => {
     );
   };
 
+  // const Summary = (totalPrice, totalQty) => {
+  //   return (
+  //     <View style={styles.summaryContainer}>
+  //       <Text style={styles.summaryText}>Quantity: {totalQty}</Text>
+  //       <Text style={styles.summaryText}>Price: ${totalPrice}</Text>
+  //     </View>
+  //   );
+  // };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Shopping Cart</Text>
       </View>
-      {/* <Item imgSrc={item.image} name={item.title} price={item.price} /> */}
+
       <FlatList
         ListEmptyComponent={
           <Text style={styles.emptyText}>No Items in Cart !</Text>
+        }
+        ListHeaderComponent={
+          <View style={styles.summaryContainer}>
+            <Text style={styles.summaryText}>Quantity: {totalQty}</Text>
+            <Text style={styles.summaryText}>Price: ${totalPrice}</Text>
+          </View>
         }
         data={cartItems}
         renderItem={renderItem}
