@@ -19,12 +19,9 @@ export default Item = ({ navigation, route }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // console.log("PARAMS:", route.params);
     setItem({ ...route.params });
     setLoading(false);
   }, []);
-
-  // console.log("ITEM", item);
 
   return (
     <SafeAreaView style={styles.container}>

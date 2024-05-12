@@ -15,8 +15,6 @@ const ShoppingCart = ({ navigation }) => {
   const cartItems = useSelector(getCartItems);
   const { totalPrice, totalQty } = useSelector(getCartSummary);
 
-  // console.log("SUMMARY: ", cartSummary);
-
   const renderItem = ({ item }) => {
     return (
       <Item
@@ -29,15 +27,6 @@ const ShoppingCart = ({ navigation }) => {
     );
   };
 
-  // const Summary = (totalPrice, totalQty) => {
-  //   return (
-  //     <View style={styles.summaryContainer}>
-  //       <Text style={styles.summaryText}>Quantity: {totalQty}</Text>
-  //       <Text style={styles.summaryText}>Price: ${totalPrice}</Text>
-  //     </View>
-  //   );
-  // };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleContainer}>
@@ -49,10 +38,12 @@ const ShoppingCart = ({ navigation }) => {
           <Text style={styles.emptyText}>No Items in Cart !</Text>
         }
         ListHeaderComponent={
-          <View style={styles.summaryContainer}>
-            <Text style={styles.summaryText}>Quantity: {totalQty}</Text>
-            <Text style={styles.summaryText}>Price: ${totalPrice}</Text>
-          </View>
+          totalQty && (
+            <View style={styles.summaryContainer}>
+              <Text style={styles.summaryText}>Quantity:{totalQty} </Text>
+              <Text style={styles.summaryText}>Price: ${totalPrice}</Text>
+            </View>
+          )
         }
         data={cartItems}
         renderItem={renderItem}
@@ -105,6 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     marginTop: 100,
+    alignSelf: "center",
   },
 });
 

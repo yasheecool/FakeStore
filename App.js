@@ -10,12 +10,15 @@ import Products from "./src/screens/Products";
 import Item from "./src/screens/Item";
 import { Provider } from "react-redux";
 import Store from "./src/state/Store";
+import { useSelector } from "react-redux";
+import { getCartSummary } from "./src/state/ShoppingCartSlice";
 
 //Creating navigator objects
 const Tabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 export default function App() {
+  // const { totalQty } = useSelector(getCartSummary);
   const ProductNavigation = () => {
     return (
       <Stack.Navigator initialRouteName="ProdCategory">
@@ -55,7 +58,12 @@ export default function App() {
         <Tabs.Screen
           name="Shopping Cart"
           component={ShoppingCart}
-          options={{ tabBarIcon: () => icon("cart-sharp"), headerShown: false }}
+          options={{
+            tabBarIcon: () => icon("cart-sharp"),
+            headerShown: false,
+            // tabBarBadge: 3,
+            // tabBarBadgeStyle: { color: "white" },
+          }}
         />
       </Tabs.Navigator>
     );
