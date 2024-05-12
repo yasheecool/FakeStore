@@ -8,7 +8,10 @@ import { Ionicons } from "@expo/vector-icons";
 import SplashScreen from "./src/screens/SplashScreen";
 import Products from "./src/screens/Products";
 import Item from "./src/screens/Item";
+import { Provider } from "react-redux";
+import Store from "./src/state/Store";
 
+//Creating navigator objects
 const Tabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -59,15 +62,17 @@ export default function App() {
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={SplashScreen} />
-        <Stack.Screen
-          name="BottomNav"
-          component={BottomNavigator}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={Store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={SplashScreen} />
+          <Stack.Screen
+            name="BottomNav"
+            component={BottomNavigator}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }

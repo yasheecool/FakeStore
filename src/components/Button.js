@@ -6,7 +6,7 @@ const Button = ({
   iconName,
   size = 22,
   color = "black",
-  text,
+  text = "",
   style,
   onClickFn,
 }) => {

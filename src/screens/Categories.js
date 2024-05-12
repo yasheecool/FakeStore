@@ -22,8 +22,8 @@ const Categories = ({ navigation }) => {
     getData()
       .then((data) => {
         console.log("categories", categories);
-        setLoading((loading) => !loading);
         setCategories((val) => [...data, ...val]);
+        setLoading((loading) => !loading);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -40,7 +40,7 @@ const Categories = ({ navigation }) => {
         <View style={styles.categoryContainer}>
           <Button
             iconName="laptop-outline"
-            text={categories[0]}
+            text={categories[0][0].toUpperCase() + categories[0].slice(1)}
             size={24}
             color="black"
             style={styles.category}
@@ -49,7 +49,7 @@ const Categories = ({ navigation }) => {
 
           <Button
             iconName="diamond-outline"
-            text={categories[1]}
+            text={categories[1][0].toUpperCase() + categories[1].slice(1)}
             size={24}
             color="black"
             style={styles.category}
@@ -58,7 +58,7 @@ const Categories = ({ navigation }) => {
 
           <Button
             iconName="shirt-sharp"
-            text={categories[2]}
+            text={categories[2][0].toUpperCase() + categories[2].slice(1)}
             size={24}
             color="black"
             style={styles.category}
@@ -67,7 +67,7 @@ const Categories = ({ navigation }) => {
 
           <Button
             iconName="woman-sharp"
-            text={categories[3]}
+            text={categories[3][0].toUpperCase() + categories[3].slice(1)}
             size={24}
             color="black"
             style={styles.category}

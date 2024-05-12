@@ -8,19 +8,23 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+import { useDispatch } from "react-redux";
 import Button from "../components/Button";
+import { addToCart } from "../state/ShoppingCartSlice";
 
 export default Item = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("PARAMS:", route.params);
+    // console.log("PARAMS:", route.params);
     setItem({ ...route.params });
     setLoading(false);
   }, []);
 
-  console.log("ITEM", item);
+  // console.log("ITEM", item);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,7 +52,17 @@ export default Item = ({ navigation, route }) => {
             iconName={"cart"}
             text={"ADD TO CART"}
             style={styles.btn}
-            onClickFn={() => console.log("added to cart")}
+            onClickFn={() => {
+              console.log("clicked");
+              dispatch(
+                addToCart({
+                  img: item.image,
+                  name: item.title,
+                  price: item.price,
+                  id: item.id,
+                })
+              );
+            }}
           ></Button>
         </View>
 
@@ -139,7 +153,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   description: {
-    maxHeight: screenHeight * 0.175,
+    maxHeight: screenHeight * 0.15,
     backgroundColor: "grey",
     borderRadius: 2,
     borderColor: "black",
