@@ -1,22 +1,22 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
+import { useEffect } from "react";
 import Button from "../components/Button";
 
 export default SplashScreen = ({ navigation }) => {
   const navToNewToDo = () => navigation.navigate("BottomNav");
+
+  useEffect(() => {
+    setTimeout(() => {
+      navToNewToDo();
+    }, 1500);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imgContainer}>
         <Text style={styles.title}>FAKE STORE</Text>
         <Image source={require("../../splashImage.png")} style={styles.image} />
-
-        <Button
-          iconName={"arrow-forward-sharp"}
-          text={"PROCEED"}
-          style={styles.btn}
-          onClickFn={navToNewToDo}
-        ></Button>
       </View>
     </SafeAreaView>
   );
