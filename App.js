@@ -18,7 +18,6 @@ const Tabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 export default function App() {
-  // const { totalQty } = useSelector(getCartSummary);
   const ProductNavigation = () => {
     return (
       <Stack.Navigator initialRouteName="ProdCategory">
@@ -42,6 +41,7 @@ export default function App() {
   };
 
   const BottomNavigator = () => {
+    const { totalQty } = useSelector(getCartSummary);
     const icon = (name, color = "black", size = 22) => {
       return <Ionicons name={name} color={color} size={size} />;
     };
@@ -61,8 +61,8 @@ export default function App() {
           options={{
             tabBarIcon: () => icon("cart-sharp"),
             headerShown: false,
-            // tabBarBadge: 3,
-            // tabBarBadgeStyle: { color: "white" },
+            tabBarBadge: totalQty,
+            tabBarBadgeStyle: { color: "white" },
           }}
         />
       </Tabs.Navigator>
