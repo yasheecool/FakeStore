@@ -1,13 +1,20 @@
 import React from "react";
+
+//Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+//Screens
 import Categories from "./src/screens/Categories";
 import ShoppingCart from "./src/screens/ShoppingCart";
-import { Ionicons } from "@expo/vector-icons";
 import SplashScreen from "./src/screens/SplashScreen";
 import Products from "./src/screens/Products";
 import Item from "./src/screens/Item";
+import Orders from "./src/screens/Orders";
+import UserProfile from "./src/screens/UserProfile";
+
+import { Ionicons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
 import Store from "./src/state/Store";
 import { useSelector } from "react-redux";
@@ -46,9 +53,9 @@ export default function App() {
       return <Ionicons name={name} color={color} size={size} />;
     };
     return (
-      <Tabs.Navigator initialRouteName="Product Categories">
+      <Tabs.Navigator initialRouteName="Products">
         <Tabs.Screen
-          name="Product Categories"
+          name="Products"
           component={ProductNavigation}
           options={{
             tabBarIcon: () => icon("storefront-sharp"),
@@ -62,6 +69,26 @@ export default function App() {
             tabBarIcon: () => icon("cart-sharp"),
             headerShown: false,
             tabBarBadge: totalQty,
+            tabBarBadgeStyle: { color: "white" },
+          }}
+        />
+        <Tabs.Screen
+          name="My Orders"
+          component={Orders}
+          options={{
+            tabBarIcon: () => icon("basket"),
+            headerShown: false,
+            // tabBarBadge: totalQty,
+            tabBarBadgeStyle: { color: "white" },
+          }}
+        />
+        <Tabs.Screen
+          name="User Profile"
+          component={UserProfile}
+          options={{
+            tabBarIcon: () => icon("person-circle-sharp"),
+            headerShown: false,
+            // tabBarBadge: totalQty,
             tabBarBadgeStyle: { color: "white" },
           }}
         />

@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
 import { useEffect } from "react";
-import Button from "../components/Button";
 
 export default SplashScreen = ({ navigation }) => {
   const navToNewToDo = () => navigation.navigate("BottomNav");
