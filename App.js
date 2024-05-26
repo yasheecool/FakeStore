@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Alert } from "react-native";
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -13,12 +14,15 @@ import Products from "./src/screens/Products";
 import Item from "./src/screens/Item";
 import Orders from "./src/screens/Orders";
 import UserProfile from "./src/screens/UserProfile";
+import UserNav from "./src/components/UserNav";
 
 import { Ionicons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
 import Store from "./src/state/Store";
 import { useSelector } from "react-redux";
 import { getCartSummary } from "./src/state/ShoppingCartSlice";
+
+import { loginDetails } from "./src/state/AuthSlice";
 
 //Creating navigator objects
 const Tabs = createBottomTabNavigator();
@@ -47,16 +51,26 @@ export default function App() {
     );
   };
 
+  const LoginAlert = () => {
+    useEffect(() => {
+      Alert.alert("You must be logged in to view this screen");
+    }, []);
+
+    return null;
+  };
+
   const BottomNavigator = () => {
     const { totalQty } = useSelector(getCartSummary);
+    const { isLoggedIn } = useSelector(loginDetails);
+
     const icon = (name, color = "black", size = 22) => {
       return <Ionicons name={name} color={color} size={size} />;
     };
     return (
-      <Tabs.Navigator initialRouteName="Products">
+      <Tabs.Navigator initialRouteName="User Profile">
         <Tabs.Screen
-          name="Products"
-          component={ProductNavigation}
+          name="Product"
+          component={isLoggedIn ? ProductNavigation : LoginAlert}
           options={{
             tabBarIcon: () => icon("storefront-sharp"),
             headerShown: false,
@@ -78,18 +92,15 @@ export default function App() {
           options={{
             tabBarIcon: () => icon("basket"),
             headerShown: false,
-            // tabBarBadge: totalQty,
             tabBarBadgeStyle: { color: "white" },
           }}
         />
         <Tabs.Screen
           name="User Profile"
-          component={UserProfile}
+          component={UserNav}
           options={{
             tabBarIcon: () => icon("person-circle-sharp"),
             headerShown: false,
-            // tabBarBadge: totalQty,
-            tabBarBadgeStyle: { color: "white" },
           }}
         />
       </Tabs.Navigator>
