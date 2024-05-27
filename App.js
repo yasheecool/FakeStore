@@ -13,15 +13,14 @@ import SplashScreen from "./src/screens/SplashScreen";
 import Products from "./src/screens/Products";
 import Item from "./src/screens/Item";
 import Orders from "./src/screens/Orders";
-import UserProfile from "./src/screens/UserProfile";
 import UserNav from "./src/components/UserNav";
+import AuthGuardButton from "./src/components/AuthGuardButton";
 
 import { Ionicons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
 import Store from "./src/state/Store";
 import { useSelector } from "react-redux";
 import { getCartSummary } from "./src/state/ShoppingCartSlice";
-
 import { loginDetails } from "./src/state/AuthSlice";
 
 //Creating navigator objects
@@ -29,7 +28,7 @@ const Tabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 export default function App() {
-  const ProductNavigation = () => {
+  const ProductNavigation = ({ navigation }) => {
     return (
       <Stack.Navigator initialRouteName="ProdCategory">
         <Stack.Screen
@@ -51,14 +50,6 @@ export default function App() {
     );
   };
 
-  const LoginAlert = () => {
-    useEffect(() => {
-      Alert.alert("You must be logged in to view this screen");
-    }, []);
-
-    return null;
-  };
-
   const BottomNavigator = () => {
     const { totalQty } = useSelector(getCartSummary);
     const { isLoggedIn } = useSelector(loginDetails);
@@ -66,11 +57,12 @@ export default function App() {
     const icon = (name, color = "black", size = 22) => {
       return <Ionicons name={name} color={color} size={size} />;
     };
+
     return (
       <Tabs.Navigator initialRouteName="User Profile">
         <Tabs.Screen
           name="Product"
-          component={isLoggedIn ? ProductNavigation : LoginAlert}
+          component={ProductNavigation}
           options={{
             tabBarIcon: () => icon("storefront-sharp"),
             headerShown: false,
@@ -82,7 +74,7 @@ export default function App() {
           options={{
             tabBarIcon: () => icon("cart-sharp"),
             headerShown: false,
-            tabBarBadge: totalQty,
+            tabBarBadge: totalQty > 0 && isLoggedIn ? totalQty : null,
             tabBarBadgeStyle: { color: "white" },
           }}
         />
@@ -111,7 +103,11 @@ export default function App() {
     <Provider store={Store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={SplashScreen} />
+          <Stack.Screen
+            name="Home"
+            component={SplashScreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="BottomNav"
             component={BottomNavigator}

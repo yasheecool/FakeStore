@@ -7,31 +7,41 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Button from "../components/Button";
+import { loginDetails } from "../state/AuthSlice";
+import { useSelector } from "react-redux";
+import { saveData } from "../datamodel/storageFunctions";
+import { loadData } from "../datamodel/storageFunctions";
 
 const Categories = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
+  const sessionDetails = useSelector(loginDetails);
+  const { name } = sessionDetails.user;
+  const key = "categories";
 
-  async function getData() {
+  async function fetchSetCategories() {
     const res = await fetch("https://fakestoreapi.com/products/categories");
     const data = await res.json();
-    return data;
+    setCategories((val) => [...val, ...data]);
+    setLoading(false);
+    saveData(key, data);
   }
 
   useEffect(() => {
-    getData()
-      .then((data) => {
-        console.log("categories", categories);
-        setCategories((val) => [...data, ...val]);
-        setLoading((loading) => !loading);
-      })
-      .catch((err) => console.log(err));
+    loadData(key).then((data) => {
+      if (!data) {
+        fetchSetCategories();
+      } else {
+        setCategories((val) => [...val, ...data]);
+        setLoading(false);
+      }
+    });
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>Choose Category</Text>
+        <Text style={styles.titleText}>Product Categories</Text>
       </View>
 
       {loading ? (
@@ -75,6 +85,9 @@ const Categories = ({ navigation }) => {
           />
         </View>
       )}
+      <View style={styles.name}>
+        <Text>Developed By: {name}</Text>
+      </View>
     </SafeAreaView>
   );
 };
@@ -114,6 +127,11 @@ const styles = StyleSheet.create({
     height: 150,
     borderColor: "black",
     borderWidth: 2,
+  },
+  name: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
   },
 });
 

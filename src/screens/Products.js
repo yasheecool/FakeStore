@@ -10,28 +10,35 @@ import {
   Pressable,
 } from "react-native";
 import Button from "../components/Button";
-import { Ionicons } from "@expo/vector-icons";
+import { saveData, loadData } from "../datamodel/storageFunctions";
 
 const Products = ({ navigation, route }) => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const category = route.params;
 
-  const fetchData = async () => {
+  const fetchSaveSetProducts = async () => {
     const res = await fetch("https://fakestoreapi.com/products");
     const products = await res.json();
-    return products;
+    console.log(products);
+    const filteredProducts = products.filter(
+      (prod) => prod.category === category
+    );
+    saveData(category, filteredProducts);
+    setProducts(filteredProducts);
+    setLoading(false);
   };
 
   useEffect(() => {
-    fetchData().then((products) => {
-      const filteredProducts = products.filter(
-        (prod) => prod.category === category
-      );
-      setProducts(filteredProducts);
-      setLoading(false);
+    loadData(category).then((data) => {
+      if (data) {
+        setProducts(data);
+        setLoading(false);
+      } else {
+        fetchSaveSetProducts();
+      }
     });
-  }, []);
+  });
 
   return (
     <SafeAreaView style={styles.container}>

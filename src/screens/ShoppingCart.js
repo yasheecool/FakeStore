@@ -10,6 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import { getCartItems, getCartSummary } from "../state/ShoppingCartSlice";
 import Item from "../components/Item";
+import Button from "../components/Button";
 
 const ShoppingCart = ({ navigation }) => {
   const cartItems = useSelector(getCartItems);
@@ -32,10 +33,9 @@ const ShoppingCart = ({ navigation }) => {
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Shopping Cart</Text>
       </View>
-
       <FlatList
         ListEmptyComponent={
-          <Text style={styles.emptyText}>No Items in Cart !</Text>
+          <Text style={styles.emptyText}>Your Cart is Empty</Text>
         }
         ListHeaderComponent={
           totalQty && (
@@ -49,6 +49,15 @@ const ShoppingCart = ({ navigation }) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
+
+      {totalQty > 0 && (
+        <Button
+          text="CHECK OUT"
+          style={styles.btn}
+          iconName={"arrow-forward"}
+          onClickFn={() => console.log(typeof totalQty)}
+        ></Button>
+      )}
     </SafeAreaView>
   );
 };
@@ -97,6 +106,15 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginTop: 100,
     alignSelf: "center",
+  },
+  btn: {
+    backgroundColor: "#7A8450",
+    padding: 10,
+    flexDirection: "row",
+    marginBottom: 10,
+    borderRadius: 10,
+    borderColor: "black",
+    borderWidth: 2,
   },
 });
 

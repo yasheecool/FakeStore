@@ -1,9 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const key = "todoTasks";
-export async function saveData(todoArray) {
-  const data = JSON.stringify(todoArray);
-
+export async function saveData(key, value) {
+  const data = JSON.stringify(value);
   try {
     await AsyncStorage.setItem(key, data);
   } catch (err) {
@@ -11,13 +9,13 @@ export async function saveData(todoArray) {
   }
 }
 
-export async function loadData() {
+export async function loadData(key) {
   try {
     const data = await AsyncStorage.getItem(key);
     if (data !== null) {
       return JSON.parse(data);
     }
-    return [];
+    return false;
   } catch (err) {
     console.log("Failed to fetch data:", err);
     return [];
