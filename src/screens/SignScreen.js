@@ -29,14 +29,6 @@ export default SignScreen = ({ navigation }) => {
       );
 
       const res = await response.json();
-      // console.log({
-      //   id: item.id,
-      //   quantity: item.count,
-      //   price: item.price,
-      //   img: res.image,
-      //   name: res.title,
-      // });
-
       dispatch(
         addToCart({
           id: item.id,

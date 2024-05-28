@@ -8,20 +8,32 @@ import {
   FlatList,
 } from "react-native";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getCartItems, getCartSummary } from "../state/ShoppingCartSlice";
+import {
+  getCartItems,
+  getCartSummary,
+  clearCart,
+} from "../state/ShoppingCartSlice";
 import Item from "../components/Item";
 import Button from "../components/Button";
-// import { updateCart } from "../../services/cartService";
+import { addToNewOrder } from "../state/OrderSlice";
+import { updateCart } from "../../services/cartService";
+import { loginDetails } from "../state/AuthSlice";
 
 const ShoppingCart = ({ navigation }) => {
+  const dispatch = useDispatch();
   const cartItems = useSelector(getCartItems);
   const { totalPrice, totalQty } = useSelector(getCartSummary);
+  const { token } = useSelector(loginDetails);
 
-  // useEffect(() => {
-  //   // console.log("use effect of shopping cart");
-  //   // console.log("cart items: ", cartItems);
-  // }, [cartItems]);
+  const handleCheckout = () => {
+    const cart = cartItems;
+
+    dispatch(addToNewOrder(cart));
+    dispatch(clearCart());
+    updateCart([], token);
+  };
 
   const renderItem = ({ item }) => {
     return (
@@ -62,7 +74,7 @@ const ShoppingCart = ({ navigation }) => {
           text="CHECK OUT"
           style={styles.btn}
           iconName={"arrow-forward"}
-          onClickFn={() => console.log("checked out")}
+          onClickFn={() => handleCheckout()}
         ></Button>
       )}
     </SafeAreaView>

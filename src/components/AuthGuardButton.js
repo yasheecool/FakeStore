@@ -8,7 +8,7 @@ export default function AuthGuardButton({ onPress, ...props }) {
   const handlePress = () => {
     if (!isLoggedIn) {
       Alert.alert(
-        "Unauthorized",
+        "Login Required",
         "You need to be logged in to access this page.",
         [{ text: "OK" }]
       );
