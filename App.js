@@ -14,7 +14,6 @@ import Products from "./src/screens/Products";
 import Item from "./src/screens/Item";
 import Orders from "./src/screens/Orders";
 import UserNav from "./src/components/UserNav";
-import AuthGuardButton from "./src/components/AuthGuardButton";
 
 import { Ionicons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
@@ -22,6 +21,7 @@ import Store from "./src/state/Store";
 import { useSelector } from "react-redux";
 import { getCartSummary } from "./src/state/ShoppingCartSlice";
 import { loginDetails } from "./src/state/AuthSlice";
+import AuthGuardButton from "./src/components/AuthGuardButton";
 
 //Creating navigator objects
 const Tabs = createBottomTabNavigator();
@@ -66,13 +66,16 @@ export default function App() {
           options={{
             tabBarIcon: () => icon("storefront-sharp"),
             headerShown: false,
+            tabBarButton: (props) => <AuthGuardButton {...props} />,
           }}
         />
+
         <Tabs.Screen
           name="Shopping Cart"
           component={ShoppingCart}
           options={{
             tabBarIcon: () => icon("cart-sharp"),
+            tabBarButton: (props) => <AuthGuardButton {...props} />,
             headerShown: false,
             tabBarBadge: totalQty > 0 && isLoggedIn ? totalQty : null,
             tabBarBadgeStyle: { color: "white" },
@@ -83,6 +86,7 @@ export default function App() {
           component={Orders}
           options={{
             tabBarIcon: () => icon("basket"),
+            tabBarButton: (props) => <AuthGuardButton {...props} />,
             headerShown: false,
             tabBarBadgeStyle: { color: "white" },
           }}

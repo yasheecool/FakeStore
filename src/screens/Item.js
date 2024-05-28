@@ -8,20 +8,32 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/Button";
-import { addToCart } from "../state/ShoppingCartSlice";
+import { addToCart, getCartItems } from "../state/ShoppingCartSlice";
+import { updateCart } from "../../services/cartService";
+import { loginDetails } from "../state/AuthSlice";
 
 export default Item = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
+  const cartItems = useSelector(getCartItems);
+  const { token } = useSelector(loginDetails);
 
   useEffect(() => {
     setItem({ ...route.params });
+    // console.log({ ...route.params });
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      console.log("cart updated");
+      updateCart(cartItems, token);
+    }
+  }, [cartItems]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,7 +62,6 @@ export default Item = ({ navigation, route }) => {
             text={"ADD TO CART"}
             style={styles.btn}
             onClickFn={() => {
-              console.log("clicked");
               dispatch(
                 addToCart({
                   img: item.image,

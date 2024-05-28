@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,9 @@ import {
 } from "react-native";
 import Button from "../components/Button";
 import { login } from "../state/AuthSlice";
+import { addToCart } from "../state/ShoppingCartSlice";
 import { useDispatch } from "react-redux";
+import { getCart, getItemDetailsById } from "../../services/cartService";
 
 export default SignScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -17,6 +19,35 @@ export default SignScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [signUp, triggerSignUp] = useState(false);
   const dispatch = useDispatch();
+
+  async function getItemDetailsById(cartItems) {
+    console.log("Cart received:", cartItems);
+    for (const item of cartItems) {
+      console.log(item);
+      const response = await fetch(
+        `https://fakestoreapi.com/products/${item.id}`
+      );
+
+      const res = await response.json();
+      // console.log({
+      //   id: item.id,
+      //   quantity: item.count,
+      //   price: item.price,
+      //   img: res.image,
+      //   name: res.title,
+      // });
+
+      dispatch(
+        addToCart({
+          id: item.id,
+          quantity: item.count,
+          price: item.price,
+          img: res.image,
+          name: res.title,
+        })
+      );
+    }
+  }
 
   const clearInputFields = () => {
     setEmail("");
@@ -49,6 +80,11 @@ export default SignScreen = ({ navigation }) => {
           email: res.email,
         })
       );
+
+      const cartItems = await getCart(res.token);
+      console.log("Signed In, cart items fetched:", cartItems);
+      getItemDetailsById(cartItems);
+
       navigation.navigate("User Details");
     } else {
       Alert.alert(res.message);
@@ -56,8 +92,6 @@ export default SignScreen = ({ navigation }) => {
   };
 
   const handleSignUp = async () => {
-    console.log("Signed up");
-
     const response = await fetch("http://localhost:3000/users/signup", {
       method: "POST",
       headers: {
@@ -67,7 +101,6 @@ export default SignScreen = ({ navigation }) => {
     });
 
     const res = await response.json();
-    console.log("Response: ", res);
     if (res.status === "OK") {
       dispatch(
         login({
@@ -205,6 +238,6 @@ const styles = StyleSheet.create({
   signUp: {
     alignSelf: "center",
     fontSize: 12,
-    color: "dimgrey",
+    color: "black",
   },
 });

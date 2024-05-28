@@ -8,6 +8,7 @@ import {
   Image,
   ScrollView,
   Pressable,
+  Alert,
 } from "react-native";
 import Button from "../components/Button";
 import { saveData, loadData } from "../datamodel/storageFunctions";

@@ -8,13 +8,20 @@ import {
   FlatList,
 } from "react-native";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import { getCartItems, getCartSummary } from "../state/ShoppingCartSlice";
 import Item from "../components/Item";
 import Button from "../components/Button";
+// import { updateCart } from "../../services/cartService";
 
 const ShoppingCart = ({ navigation }) => {
   const cartItems = useSelector(getCartItems);
   const { totalPrice, totalQty } = useSelector(getCartSummary);
+
+  // useEffect(() => {
+  //   // console.log("use effect of shopping cart");
+  //   // console.log("cart items: ", cartItems);
+  // }, [cartItems]);
 
   const renderItem = ({ item }) => {
     return (
@@ -55,7 +62,7 @@ const ShoppingCart = ({ navigation }) => {
           text="CHECK OUT"
           style={styles.btn}
           iconName={"arrow-forward"}
-          onClickFn={() => console.log(typeof totalQty)}
+          onClickFn={() => console.log("checked out")}
         ></Button>
       )}
     </SafeAreaView>

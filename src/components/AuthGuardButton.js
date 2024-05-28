@@ -1,20 +1,20 @@
 import React from "react";
 import { TouchableOpacity, Alert } from "react-native";
 import { useSelector } from "react-redux";
+import { loginDetails } from "../state/AuthSlice";
 
-export default function AuthGuardButton({ navigation }) {
-  const token = useSelector((state) => state.auth.token);
-
+export default function AuthGuardButton({ onPress, ...props }) {
+  const { isLoggedIn } = useSelector(loginDetails);
   const handlePress = () => {
-    if (!token) {
+    if (!isLoggedIn) {
       Alert.alert(
         "Unauthorized",
         "You need to be logged in to access this page.",
         [{ text: "OK" }]
       );
     } else {
-      navigation.navigate("ProductNavigation");
+      onPress();
     }
   };
-  return <TouchableOpacity onPress={handlePress} />;
+  return <TouchableOpacity {...props} onPress={handlePress} />;
 }

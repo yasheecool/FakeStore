@@ -12,6 +12,7 @@ import { loginDetails } from "../state/AuthSlice";
 import { useSelector } from "react-redux";
 import { logout } from "../state/AuthSlice";
 import { useDispatch } from "react-redux";
+import { clearCart } from "../state/ShoppingCartSlice";
 
 export default UserProfile = ({ navigation }) => {
   const [editing, setEditing] = useState(false);
@@ -22,13 +23,7 @@ export default UserProfile = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(sessionDetails);
-  }, []);
-
   const updateDetails = async () => {
-    console.log("Updated details are:", username, password);
-
     const response = await fetch("http://localhost:3000/users/update", {
       method: "POST",
       headers: {
@@ -39,11 +34,12 @@ export default UserProfile = ({ navigation }) => {
     });
 
     const res = await response.json();
-    console.log(res);
+    // console.log(res);
 
     if (res.status === "OK") {
       Alert.alert(res.message);
       toggleEdit();
+      setPassword("");
     } else {
       Alert.alert(res.message);
     }
@@ -64,7 +60,7 @@ export default UserProfile = ({ navigation }) => {
           <View style={styles.userDetails}>
             <View style={styles.inputEl}>
               <Text style={styles.label}>Name: </Text>
-              <Text style={styles.input}>{name}</Text>
+              <Text style={styles.input}>{username}</Text>
             </View>
 
             <View style={styles.inputEl}>
@@ -86,6 +82,7 @@ export default UserProfile = ({ navigation }) => {
               style={styles.btn}
               onClickFn={() => {
                 dispatch(logout());
+                dispatch(clearCart());
                 navigation.goBack();
               }}
             ></Button>

@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import Button from "./Button";
 import { addToCart, reduceQty } from "../state/ShoppingCartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { loginDetails } from "../state/AuthSlice";
+import { getCartItems } from "../state/ShoppingCartSlice";
+import { updateCart } from "../../services/cartService";
 
 export default Item = ({ imgSrc, name, price, quantity, id }) => {
   const dispatch = useDispatch();
+  const cartItems = useSelector(getCartItems);
+  const { token } = useSelector(loginDetails);
+
+  useEffect(() => {
+    updateCart(cartItems, token);
+  }, [cartItems]);
+
   return (
     <View style={styles.item}>
       <Image source={{ uri: imgSrc }} style={styles.img} />

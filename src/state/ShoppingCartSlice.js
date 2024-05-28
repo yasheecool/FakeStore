@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 
 const initialState = {
   cartItems: [],
@@ -30,12 +31,17 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
+      console.log("received in slice: ", action.payload);
       if (itemInCart(state.cartItems, action.payload.id)) {
         const idx = findItemIdx(state.cartItems, action.payload.id);
         state.cartItems[idx].quantity++;
         return;
       }
-      state.cartItems.push({ ...action.payload, quantity: 1 });
+      if (action.payload.quantity) {
+        state.cartItems.push({ ...action.payload });
+      } else {
+        state.cartItems.push({ ...action.payload, quantity: 1 });
+      }
     },
     reduceQty: (state, action) => {
       const idx = findItemIdx(state.cartItems, action.payload.id);
@@ -45,10 +51,14 @@ const cartSlice = createSlice({
       }
       state.cartItems[idx].quantity--;
     },
+    clearCart: (state) => {
+      console.log("cart items cleared");
+      state.cartItems = [];
+    },
   },
 });
 
-export const { addToCart, reduceQty } = cartSlice.actions;
+export const { addToCart, reduceQty, clearCart } = cartSlice.actions;
 export const getCartItems = (state) => state.cart.cartItems;
 export const getCartSummary = (state) => {
   return calculateCartSummary(state.cart.cartItems);
